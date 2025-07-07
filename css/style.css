@@ -44,7 +44,119 @@ canvas {
   height: 100%;
 }
 
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
 @media screen and (max-width: 430px) {
+  .game-display {
+    justify-content: end;
+  }
+
+  .game-display h1 {
+    text-align: left !important;
+    padding: 15px 0px;
+    align-self: flex-start;
+    margin-left: 20px;}
+
+  .controls {
+    display: flex;
+    padding: 0px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dpad {
+    display: grid;
+    grid-template-areas:
+      ".  up   ."
+      "left center right"
+      ".   down    .";
+    grid-template-columns: 60px 60px 60px;
+    grid-template-rows: 60px 60px 60px;
+    gap: 10px;
+  }
+
+  .dpad-button {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background-color: #444;
+    border-radius: 6%;
+    cursor: pointer;
+    border: none;
+  }
+
+  .dpad-button::before {
+    content: "";
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+  }
+
+  .dpad-center {
+    grid-area: center;
+    width: 60px;
+    height: 60px;
+    background-color: #555;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+
+  .up {
+    grid-area: up;
+  }
+
+  .up::before {
+    border-width: 20px 12px 20px 12px;
+    border-color: transparent transparent #bbb transparent;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .down {
+    grid-area: down;
+  }
+
+  .down::before {
+    border-width: 20px 12px 0px 12px;
+    border-color: #bbb transparent transparent transparent;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .left {
+    grid-area: left;
+  }
+
+  .left::before {
+    border-width: 12px 20px 12px 0px;
+    border-color: transparent #bbb transparent;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .right {
+    grid-area: right;
+  }
+
+  .right::before {
+    border-width: 12px 0px 12px 20px;
+    border-color: transparent transparent transparent #bbb;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
   /* canvas {
     max-width: 100dvw;
     height: auto;

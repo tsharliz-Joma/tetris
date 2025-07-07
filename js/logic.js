@@ -1,6 +1,7 @@
 document.addEventListener(`DOMContentLoaded`, () => {
   const canvas = document.querySelector(`canvas`);
   const ctx = canvas.getContext("2d");
+  const controls = document.querySelectorAll(".controls i ");
   let isGameRunning = false;
   let timerId;
   let score = 0;
@@ -10,7 +11,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
     //   Dynamic grid for mobile sizes
     const grid = window.innerWidth <= 430 ? 45 : 30;
     //   Dynamic canvas sizes
-    canvas.width = grid * 10; // 10 columns
+    canvas.width = grid * 13; // 10 columns
     canvas.height = grid * 20; // 20 rows
     return grid;
   };
@@ -33,7 +34,6 @@ document.addEventListener(`DOMContentLoaded`, () => {
   const row = Math.floor(canvas.height / grid);
   const col = Math.floor(canvas.width / grid);
   const board = Array.from({length: row}, () => Array(col).fill(0));
-
 
   displayMessage("Start Game");
 
@@ -274,20 +274,49 @@ document.addEventListener(`DOMContentLoaded`, () => {
     }
   };
 
-  
+  const startGame = () => {
+    isGameRunning = true;
+    score = 0;
+    updateScore();
+    board.forEach((row) => row.fill(0));
+    newTetromino();
+    timerId = setInterval(gameLoop, 450);
+  };
+
+  const changeDirection = (event) => {
+    if (event.key === "ArrowUp") {
+      rotateTetromino();
+    } else if (event.key === "ArrowLeft") {
+      moveLeft();
+    } else if (event.key === "ArrowRight") {
+      moveRight();
+    } else if (event.key === "ArrowDown") {
+      moveDown();
+    } else if (event.key === "space") {
+      startGame();
+    }
+  };
+
+  const changeDirectionMobile = () => {
+    
+  };
 
   window.addEventListener("keydown", (event) => {
     if (
       !isGameRunning &&
       (event.key == "" || event.code === "Space" || event.key === 32)
     ) {
-      isGameRunning = true;
-      score = 0;
-      updateScore();
-      board.forEach((row) => row.fill(0));
-      newTetromino();
-      timerId = setInterval(gameLoop, 500);
+      startGame();
     }
+  });
+
+  controls.forEach((control) => {
+    control.addEventListener("click", () =>
+      changeDirection({key: control.dataset.key}),
+    );
+    control.addEventListener("touchstart", () =>
+      changeDirection({key: control.dataset.key}),
+    );
   });
 
   document.addEventListener("keydown", (event) => {

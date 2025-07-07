@@ -16,8 +16,19 @@
     <div class="wrapper">
       <div class="game-display">
         <h1>Score <span id="score">0</span></h1>
-        <div>
+        <div id="canvas">
           <canvas width="600" height="600"></canvas>
+        </div>
+        <div class="controls">
+          <div class="gameboy-pad">
+            <div class="dpad">
+              <i data-key="ArrowUp" class="dpad-button up"></i>
+              <i data-key="ArrowLeft" class="dpad-button left"></i>
+              <i data-key="space" class="dpad-center"></i>
+              <i data-key="ArrowRight" class="dpad-button right"></i>
+              <i data-key="ArrowDown" class="dpad-button down"></i>
+            </div>
+          </div>
         </div>
       </div>
     </div>
