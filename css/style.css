@@ -31,14 +31,33 @@ canvas {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  width: 100%;
+  height: 100vh;
 }
 
 .game-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
 }
 
-.game-display:first-child {
-  /* padding: 40px; */
+@media screen and (max-width: 430px) {
+  /* canvas {
+    max-width: 100dvw;
+    height: auto;
+    touch-action: none;
+  }
+
+  .wrapper {
+    height: 100vh;
+    width: 100%;
+  }
+
+  .game-display {
+    height: 100%;
+    justify-content: center;
+  } */
 }

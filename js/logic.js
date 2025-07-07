@@ -4,11 +4,16 @@ document.addEventListener(`DOMContentLoaded`, () => {
   let isGameRunning = false;
   let timerId;
   let score = 0;
-  const grid = 30;
-  const row = Math.floor(canvas.height / grid);
-  const col = Math.floor(canvas.width / grid);
   let currentTetromino;
-  const board = Array.from({length: row}, () => Array(col).fill(0));
+
+  const setCanvasSize = () => {
+    //   Dynamic grid for mobile sizes
+    const grid = window.innerWidth <= 430 ? 45 : 30;
+    //   Dynamic canvas sizes
+    canvas.width = grid * 10; // 10 columns
+    canvas.height = grid * 20; // 20 rows
+    return grid;
+  };
 
   const displayMessage = (message) => {
     ctx.fillStyle = `black`;
@@ -22,6 +27,13 @@ document.addEventListener(`DOMContentLoaded`, () => {
     ctx.textBaseline = `middle`;
     ctx.fillText(`${message}`, canvas.width / 2, canvas.height / 2);
   };
+
+  let grid = setCanvasSize();
+
+  const row = Math.floor(canvas.height / grid);
+  const col = Math.floor(canvas.width / grid);
+  const board = Array.from({length: row}, () => Array(col).fill(0));
+
 
   displayMessage("Start Game");
 
@@ -262,6 +274,8 @@ document.addEventListener(`DOMContentLoaded`, () => {
     }
   };
 
+  
+
   window.addEventListener("keydown", (event) => {
     if (
       !isGameRunning &&
@@ -289,5 +303,9 @@ document.addEventListener(`DOMContentLoaded`, () => {
       }
       //   draw();
     }
+  });
+
+  document.addEventListener("resize", () => {
+    grid = setCanvasSize();
   });
 });
