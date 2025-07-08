@@ -5,6 +5,8 @@ document.addEventListener(`DOMContentLoaded`, () => {
   let isGameRunning = false;
   let timerId;
   let score = 0;
+  const NUM_COLS = 10;
+  const NUM_ROWS = 20;
   let currentTetromino;
 
   const setCanvasSize = () => {
@@ -15,6 +17,11 @@ document.addEventListener(`DOMContentLoaded`, () => {
     canvas.height = grid * 20; // 20 rows
     return grid;
   };
+
+  let grid = setCanvasSize();
+//   const ro = NUM_ROWS
+//   const co = NUM_COLS
+
 
   const displayMessage = (message) => {
     ctx.fillStyle = `black`;
@@ -29,10 +36,8 @@ document.addEventListener(`DOMContentLoaded`, () => {
     ctx.fillText(`${message}`, canvas.width / 2, canvas.height / 2);
   };
 
-  let grid = setCanvasSize();
-
-  const row = Math.floor(canvas.height / grid);
-  const col = Math.floor(canvas.width / grid);
+  const row = NUM_ROWS
+  const col = NUM_COLS
   const board = Array.from({length: row}, () => Array(col).fill(0));
 
   displayMessage("Start Game");
@@ -66,13 +71,13 @@ document.addEventListener(`DOMContentLoaded`, () => {
   };
 
   const colors = {
-    I: "cyan", // Neon cyan
-    J: "blue", // Neon blue
-    L: "orange", // Neon orange
-    O: "yellow", // Neon yellow
-    S: "green", // Neon green
-    T: "purple", // Neon purple
-    Z: "red", // Neon pink/red
+    I: "#00fff7", // Neon cyan
+    J: "#1e90ff", // Neon blue
+    L: "#ff9900", // Neon orange
+    O: "#ffe600", // Neon yellow
+    S: "#39ff14", // Neon green
+    T: "#d726ff", // Neon purple
+    Z: "#ff206e", // Neon pink/red
   };
 
   const newTetromino = () => {
@@ -297,9 +302,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
     }
   };
 
-  const changeDirectionMobile = () => {
-    
-  };
+  const changeDirectionMobile = () => {};
 
   window.addEventListener("keydown", (event) => {
     if (
