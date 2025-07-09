@@ -82,6 +82,7 @@ canvas {
   .game-display {
     justify-content: end;
     padding: 0px;
+    height: 100%;
   }
 
   .game-header {
