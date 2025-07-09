@@ -31,7 +31,6 @@ document.addEventListener(`DOMContentLoaded`, () => {
     ctx.fillText(`${message}`, canvas.width / 2, canvas.height / 2);
   };
 
-
   const row = Math.floor(canvas.height / grid);
   const col = Math.floor(canvas.width / grid);
   const board = Array.from({length: row}, () => Array(col).fill(0));
@@ -298,9 +297,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
     }
   };
 
-  const changeDirectionMobile = () => {
-
-  };
+  const changeDirectionMobile = () => {};
 
   window.addEventListener("keydown", (event) => {
     if (
