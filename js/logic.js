@@ -312,9 +312,6 @@ document.addEventListener(`DOMContentLoaded`, () => {
     control.addEventListener("click", () =>
       changeDirection({key: control.dataset.key}),
     );
-    control.addEventListener("touchstart", () =>
-      changeDirection({key: control.dataset.key}),
-    );
   });
 
   document.addEventListener("keydown", (event) => {
