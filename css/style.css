@@ -5,6 +5,14 @@
   font-family: "Michroma", sans-serif;
 }
 
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  height: -webkit-fill-available;
+}
+
 .michroma-regular {
   font-family: "Michroma", sans-serif;
   font-weight: 400;
