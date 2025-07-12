@@ -1,10 +1,12 @@
 document.addEventListener(`DOMContentLoaded`, () => {
   const canvas = document.querySelector(`canvas`);
   const ctx = canvas.getContext("2d");
-  const controls = document.querySelectorAll(".controls i ");
+  const controls = document.querySelectorAll(".controls i");
   let isGameRunning = false;
   let timerId;
   let score = 0;
+  let lastDropTime = 0;
+  const dropInterval = 500;
   let currentTetromino;
 
   const setCanvasSize = () => {
@@ -194,12 +196,17 @@ document.addEventListener(`DOMContentLoaded`, () => {
   const rotateMatrix = (matrix) => {
     return matrix[0].map((_, i) => matrix.map((row) => row[i]).reverse());
   };
-  const gameLoop = () => {
-    if (isGameRunning) {
-      draw();
+  const gameLoop = (timestamp = 0) => {
+    if (!isGameRunning) return;
+
+    draw();
+
+    if (timestamp - lastDropTime > dropInterval) {
       //   We place moveDown to make the tetromino move down automatically, every time the game starts
       moveDown();
+      lastDropTime = timestamp;
     }
+    requestAnimationFrame(gameLoop);
   };
 
   const mergeTetromino = () => {
@@ -280,7 +287,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
     updateScore();
     board.forEach((row) => row.fill(0));
     newTetromino();
-    timerId = setInterval(gameLoop, 450);
+    requestAnimationFrame(gameLoop);
   };
 
   const changeDirection = (event) => {
