@@ -292,6 +292,9 @@ document.addEventListener(`DOMContentLoaded`, () => {
 
   const changeDirection = (event) => {
     if (event.key === "ArrowUp") {
+      if (!isGameRunning) {
+        startGame();
+      }
       rotateTetromino();
     } else if (event.key === "ArrowLeft") {
       moveLeft();
@@ -307,12 +310,12 @@ document.addEventListener(`DOMContentLoaded`, () => {
   const changeDirectionMobile = () => {};
 
   window.addEventListener("keydown", (event) => {
+    console.log(event);
     if (
       !isGameRunning &&
       (event.key == "" ||
         event.code === "Space" ||
-        event.key === 32 ||
-        event.code === "ArrowDown")
+        event.key === 32 )
     ) {
       startGame();
     }
