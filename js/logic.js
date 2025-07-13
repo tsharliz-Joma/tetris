@@ -11,7 +11,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
 
   const setCanvasSize = () => {
     //   Dynamic grid for mobile sizes
-    const grid = window.innerWidth <= 430 ? 45 : 30;
+    const grid = window.innerWidth <= 430 ? 30 : 30;
     //   Dynamic canvas sizes
     canvas.width = grid * 13; // 10 columns
     canvas.height = grid * 20; // 20 rows

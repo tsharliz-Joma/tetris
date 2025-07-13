@@ -9,6 +9,9 @@
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Michroma&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css" />
+    <script
+      src="https://kit.fontawesome.com/6057a741cb.js"
+      crossorigin="anonymous"></script>
     <script defer src="js/logic.js"></script>
     <title>Tetris | Rocket Power Tech</title>
   </head>
@@ -24,13 +27,21 @@
         </div>
 
         <div class="controls">
-          <div class="gameboy-pad">
-            <div class="dpad">
-              <i data-key="ArrowUp" class="dpad-button up"></i>
-              <i data-key="ArrowLeft" class="dpad-button left"></i>
-              <i data-key="space" class="dpad-center"></i>
-              <i data-key="ArrowRight" class="dpad-button right"></i>
-              <i data-key="ArrowDown" class="dpad-button down"></i>
+          <div>
+            <div class="gamepad">
+              <i
+                data-key="ArrowUp"
+                class="dpad-button up fa-solid fa-rotate"></i>
+              <i
+                data-key="ArrowLeft"
+                class="dpad-button left fa-solid fa-arrow-left"></i>
+              <i
+                data-key="ArrowDown"
+                class=" dpad-button down fa-solid fa-arrow-down"></i>
+
+              <i
+                data-key="ArrowRight"
+                class="fa-solid fa-arrow-right dpad-button right"></i>
             </div>
           </div>
         </div>
