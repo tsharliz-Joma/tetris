@@ -309,7 +309,10 @@ document.addEventListener(`DOMContentLoaded`, () => {
   window.addEventListener("keydown", (event) => {
     if (
       !isGameRunning &&
-      (event.key == "" || event.code === "Space" || event.key === 32)
+      (event.key == "" ||
+        event.code === "Space" ||
+        event.key === 32 ||
+        event.key === "ArrowDown")
     ) {
       startGame();
     }
