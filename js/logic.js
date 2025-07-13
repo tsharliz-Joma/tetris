@@ -312,7 +312,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
       (event.key == "" ||
         event.code === "Space" ||
         event.key === 32 ||
-        event.key === "ArrowDown")
+        event.code === "ArrowDown")
     ) {
       startGame();
     }
