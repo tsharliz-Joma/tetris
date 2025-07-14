@@ -310,11 +310,10 @@ document.addEventListener(`DOMContentLoaded`, () => {
   const changeDirectionMobile = () => {};
 
   window.addEventListener("keydown", (event) => {
-    console.log(event);
     if (
       !isGameRunning &&
       (event.key == "" ||
-        event.code === "Space" ||
+        event.key === "Space" ||
         event.key === 32 )
     ) {
       startGame();
