@@ -313,7 +313,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
     if (
       !isGameRunning &&
       (event.key == "" ||
-        event.key === "Space" ||
+        event.key === "space" ||
         event.key === 32 )
     ) {
       startGame();
