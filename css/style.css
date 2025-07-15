@@ -85,13 +85,13 @@ canvas {
 
   canvas {
     width: 100%;
-    height: auto;
+    height: 100%;
     touch-action: none;
   }
 
   #canvas {
     width: 100%;
-    height: 100%;
+    height: 100svh;
   }
 
   .game-display {
