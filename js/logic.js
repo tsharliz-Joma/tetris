@@ -310,6 +310,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
   const changeDirectionMobile = () => {};
 
   window.addEventListener("keydown", (event) => {
+    console.log(event)
     if (
       !isGameRunning &&
       (event.key == "" ||
