@@ -9,7 +9,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
   const dropInterval = 500;
   let currentTetromino;
   const NUM_COLS = 10;
-  const NUM_ROWS = 18;
+  const NUM_ROWS = 20;
 
   //   const setCanvasSize = () => {
   //     //   Dynamic grid for mobile sizes
