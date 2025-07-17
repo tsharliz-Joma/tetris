@@ -88,15 +88,22 @@ canvas {
     gap: 20px;
   } */
 
+  #canvas {
+    /* border: 1px solid white; */
+    width: auto;
+    height: 500px;
+  }
+
   canvas {
     width: 100%;
+    height: 100%;
     touch-action: none;
   }
 
   .game-display {
     width: 100%;
-    height: 100dvh;
     background: #293447;
+    /* border: 1px solid red; */
   }
 
   .controls {
