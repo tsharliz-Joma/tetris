@@ -302,19 +302,20 @@ document.addEventListener(`DOMContentLoaded`, () => {
       moveRight();
     } else if (event.key === "ArrowDown") {
       moveDown();
-    } else if (event.key === "space") {
-      startGame();
+    } else if (event.key === "Space") {
+      if (!isGameRunning) {
+        startGame();
+      }
     }
   };
 
   const changeDirectionMobile = () => {};
 
   window.addEventListener("keydown", (event) => {
+    console.log(event);
     if (
       !isGameRunning &&
-      (event.key == "" ||
-        event.key === "space" ||
-        event.key === 32 )
+      (event.key == "" || event.code === "Space" || event.key === 32)
     ) {
       startGame();
     }
