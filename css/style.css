@@ -11,6 +11,7 @@ html {
 
 body {
   height: -webkit-fill-available;
+  background-color: #293447;
 }
 
 .michroma-regular {
@@ -32,7 +33,7 @@ canvas {
 }
 
 .wrapper {
-  color: #000;
+  color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -54,6 +55,10 @@ canvas {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.gamepad {
+  display: none;
 }
 
 .title {
@@ -104,6 +109,10 @@ canvas {
     display: flex;
     padding: 10px 0px;
     justify-content: center;
+  }
+
+  .gamepad {
+    display: block;
   }
 
   .dpad {
@@ -166,10 +175,6 @@ canvas {
 
   .dpad-button::before {
     content: "";
-    /* position: absolute; */
-    /* width: 0px;
-    height: 0px; */
-    /* border-style: solid; */
     align-items: center;
     display: flex;
     justify-content: center;
