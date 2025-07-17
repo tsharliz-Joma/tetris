@@ -8,17 +8,31 @@ document.addEventListener(`DOMContentLoaded`, () => {
   let lastDropTime = 0;
   const dropInterval = 500;
   let currentTetromino;
+  const NUM_COLS = 10;
+  const NUM_ROWS = 18;
+
+  //   const setCanvasSize = () => {
+  //     //   Dynamic grid for mobile sizes
+  //     const grid = window.innerWidth <= 430 ? 30 : 30;
+  //     //   Dynamic canvas sizes
+  //     canvas.width = grid * 13; // 10 columns
+  //     canvas.height = grid * 20; // 20 rows
+  //     return grid;
+  //   };
 
   const setCanvasSize = () => {
-    //   Dynamic grid for mobile sizes
-    const grid = window.innerWidth <= 430 ? 30 : 30;
-    //   Dynamic canvas sizes
-    canvas.width = grid * 13; // 10 columns
-    canvas.height = grid * 20; // 20 rows
+    const maxWidth = Math.min(window.innerWidth, 430);
+    const grid = Math.floor((maxWidth - 20) / NUM_COLS);
+    canvas.width = grid * NUM_COLS;
+    canvas.height = grid * NUM_ROWS;
     return grid;
   };
 
   let grid = setCanvasSize();
+
+  const row = NUM_ROWS;
+  const col = NUM_COLS;
+  const board = Array.from({length: row}, () => Array(col).fill(0));
 
   const displayMessage = (message) => {
     ctx.fillStyle = `black`;
@@ -32,10 +46,6 @@ document.addEventListener(`DOMContentLoaded`, () => {
     ctx.textBaseline = `middle`;
     ctx.fillText(`${message}`, canvas.width / 2, canvas.height / 2);
   };
-
-  const row = Math.floor(canvas.height / grid);
-  const col = Math.floor(canvas.width / grid);
-  const board = Array.from({length: row}, () => Array(col).fill(0));
 
   displayMessage("Start Game");
 
@@ -312,7 +322,6 @@ document.addEventListener(`DOMContentLoaded`, () => {
   const changeDirectionMobile = () => {};
 
   window.addEventListener("keydown", (event) => {
-    console.log(event);
     if (
       !isGameRunning &&
       (event.key == "" || event.code === "Space" || event.key === 32)

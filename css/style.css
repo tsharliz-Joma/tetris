@@ -90,18 +90,17 @@ canvas {
 
   canvas {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     touch-action: none;
   }
 
   #canvas {
     width: 100%;
-    height: 100svh;
   }
 
   .game-display {
     width: 100%;
-    height: 100dvh;
+    /* height: 100dvh; */
     background: #293447;
   }
 
