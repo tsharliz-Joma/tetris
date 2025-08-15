@@ -108,10 +108,6 @@ canvas {
   padding: 10px 100px;
 }
 
-.title {
-  font-size: 2rem;
-}
-
 .gb-shell {
   width: min(94vw, var(--shell-max));
   margin: 18px auto;
@@ -136,11 +132,12 @@ canvas {
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35), var(--glow-soft);
 }
 
-.gb-topbar .title {
-  font-family: Michroma, Inter, system-ui, sans-serif;
+.title {
+  border: 1px solid red;
+  /* font-family: Michroma, Inter, system-ui, sans-serif;
   letter-spacing: 0.6em;
   font-size: 14px;
-  text-transform: uppercase;
+  text-transform: uppercase; */
 }
 
 .gb-screen-bezel {
@@ -355,10 +352,6 @@ canvas {
     display: inline-block;
   }
 
-  .title {
-    font-size: 1.3rem;
-  }
-
   .game-display {
     width: 100%;
     background: #293447;
@@ -380,11 +373,6 @@ canvas {
     align-items: center;
     text-align: left;
     padding: 5px 10px;
-  }
-
-  .game-title {
-    font-size: 1.5rem;
-    padding: 0px 0px 15px 0px;
   }
 
   .controls {

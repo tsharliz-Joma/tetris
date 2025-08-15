@@ -7,16 +7,24 @@ document.addEventListener(`DOMContentLoaded`, () => {
   let heldKey = null;
   let canHold = true;
   let isGameRunning = false;
-
   let score = 0;
+  let bestEl = document.getElementById("best");
+  const BEST_KEY = "tetris-highscore";
+  let bestScore = Number(localStorage.getItem(BEST_KEY) || 0);
+  if (bestEl) bestEl.textContent = bestScore;
+
   let lastDropTime = 0;
   const dropInterval = 500;
   let currentTetromino;
   const NUM_COLS = 10;
   const NUM_ROWS = 20;
+  const row = NUM_ROWS;
+  const col = NUM_COLS;
+  const board = Array.from({length: row}, () => Array(col).fill(0));
 
   function render() {
     if (!boardEl) return;
+    if (bestEl) bestEl.textContent = bestScore;
     boardEl.querySelectorAll(".cell").forEach((n) => n.remove());
 
     const frag = document.createDocumentFragment();
@@ -52,10 +60,6 @@ document.addEventListener(`DOMContentLoaded`, () => {
 
     boardEl.appendChild(frag);
   }
-
-  const row = NUM_ROWS;
-  const col = NUM_COLS;
-  const board = Array.from({length: row}, () => Array(col).fill(0));
 
   const tetrominoes = {
     I: [[1, 1, 1, 1]],
@@ -297,13 +301,18 @@ document.addEventListener(`DOMContentLoaded`, () => {
         board.unshift(Array(col).fill(0));
         score += 100;
         updateScore();
+        if (score > bestScore) {
+          bestScore = score;
+          localStorage.setItem(BEST_KEY, String(bestScore));
+          if (bestEl) bestEl.textContent = bestScore;
+        }
         y = row;
       }
     }
   };
 
   const updateScore = () => {
-    document.getElementById("score").textContent = score;
+    document.getElementById("score").textContent = `Score : ${score}`;
   };
 
   const collisionDetection = (tetromino, offSetX, offSetY) => {
@@ -337,6 +346,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
     render();
     cancelAnimationFrame(radId);
     requestAnimationFrame(gameLoop);
+    if (bestEl) bestEl.textContent = bestScore;
   };
 
   const changeDirection = (event) => {
