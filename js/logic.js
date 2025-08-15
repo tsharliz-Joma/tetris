@@ -1,13 +1,13 @@
 document.addEventListener(`DOMContentLoaded`, () => {
-  const canvas = document.querySelector(`canvas`);
   const holdCanvas = document.getElementById("holdCanvas");
-  const ctx = canvas.getContext("2d");
   const holdCtx = holdCanvas ? holdCanvas.getContext("2d") : null;
   const controls = document.querySelectorAll(".controls i");
+  const holdBtn = document.getElementById(`btn-hold`);
+  const boardEl = document.querySelector(".play-board");
   let heldKey = null;
   let canHold = true;
   let isGameRunning = false;
-  let timerId;
+
   let score = 0;
   let lastDropTime = 0;
   const dropInterval = 500;
@@ -15,34 +15,47 @@ document.addEventListener(`DOMContentLoaded`, () => {
   const NUM_COLS = 10;
   const NUM_ROWS = 20;
 
-  const setCanvasSize = () => {
-    const maxWidth = Math.min(window.innerWidth, 430);
-    const grid = Math.floor((maxWidth - 20) / NUM_COLS);
-    canvas.width = grid * NUM_COLS;
-    canvas.height = grid * NUM_ROWS;
-    return grid;
-  };
+  function render() {
+    if (!boardEl) return;
+    boardEl.querySelectorAll(".cell").forEach((n) => n.remove());
 
-  let grid = setCanvasSize();
+    const frag = document.createDocumentFragment();
+
+    // draw locked board cells
+    for (let y = 0; y < row; y++) {
+      for (let x = 0; x < col; x++) {
+        const c = board[y][x];
+        if (!c) continue;
+        const d = document.createElement("div");
+        d.className = "cell";
+        d.style.gridArea = `${y + 1} / ${x + 1}`;
+        d.style.setProperty("--cell", c);
+        frag.appendChild(d);
+      }
+    }
+
+    // Draw current falling piece
+    if (currentTetromino) {
+      const {shape, x: ox, y: oy, randomlySelectedKey} = currentTetromino;
+      const color = colors[randomlySelectedKey];
+      for (let j = 0; j < shape.length; j++) {
+        for (let i = 0; i < shape[0].length; i++) {
+          if (!shape[j][i]) continue;
+          const d = document.createElement("div");
+          d.className = "cell";
+          d.style.gridArea = `${oy + j + 1} / ${ox + i + 1}`;
+          d.style.setProperty("--cell", color);
+          frag.appendChild(d);
+        }
+      }
+    }
+
+    boardEl.appendChild(frag);
+  }
 
   const row = NUM_ROWS;
   const col = NUM_COLS;
   const board = Array.from({length: row}, () => Array(col).fill(0));
-
-  const displayMessage = (message) => {
-    ctx.fillStyle = `black`;
-    ctx.globalAlpha = 0.75;
-    ctx.fillRect(0, canvas.height / 2 - 30, canvas.width, 60);
-
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = `white`;
-    ctx.font = `36px Michroma`;
-    ctx.textAlign = `center`;
-    ctx.textBaseline = `middle`;
-    ctx.fillText(`${message}`, canvas.width / 2, canvas.height / 2);
-  };
-
-  displayMessage("Start Game");
 
   const tetrominoes = {
     I: [[1, 1, 1, 1]],
@@ -126,50 +139,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
   };
 
   const draw = () => {
-    if (isGameRunning) {
-      drawBoard();
-      drawGrid();
-      // Here you would draw the current tetromino and the board
-      // For example:
-      // drawTetromino(currentTetromino);
-      drawTetromino(
-        currentTetromino.shape,
-        currentTetromino.x,
-        currentTetromino.y,
-      ); // Example to draw tetromino I at position (0, 0)
-    }
-  };
-
-  const drawBoard = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let y = 0; y < row; y++) {
-      for (let x = 0; x < col; x++) {
-        if (board[y][x]) {
-          drawSquare(x, y, board[y][x]);
-        }
-      }
-    }
-  };
-
-  const drawSquare = (x, y, color) => {
-    ctx.fillStyle = color;
-    ctx.fillRect(x * grid, y * grid, grid, grid);
-    ctx.strokeStyle = "#333";
-    ctx.strokeRect(x * grid, y * grid, grid, grid);
-  };
-
-  const drawTetromino = (tetromino, offSetX, offSetY) => {
-    tetromino.forEach((row, y) => {
-      row.forEach((value, x) => {
-        if (value) {
-          drawSquare(
-            x + offSetX,
-            y + offSetY,
-            colors[currentTetromino.randomlySelectedKey],
-          );
-        }
-      });
-    });
+    render();
   };
 
   const renderHoldPreview = () => {
@@ -233,6 +203,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
       )
     ) {
       currentTetromino.x--;
+      render();
     }
   };
 
@@ -245,6 +216,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
       )
     ) {
       currentTetromino.x++;
+      render();
     }
   };
 
@@ -257,6 +229,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
       )
     ) {
       currentTetromino.y++;
+      render();
     } else {
       mergeTetromino();
       // Allow holding again
@@ -270,30 +243,35 @@ document.addEventListener(`DOMContentLoaded`, () => {
         )
       ) {
         isGameRunning = false;
-        clearInterval(timerId);
+        cancelAnimationFrame(radId);
         displayMessage("Game over!!");
+        return;
       }
+      render();
     }
   };
   const rotateTetromino = () => {
     const tempShape = currentTetromino.shape;
-    currentTetromino.shape = rotateMatrix(tempShape);
+    const r = rotateMatrix(tempShape);
+    currentTetromino.shape = r;
+    render();
   };
 
   const rotateMatrix = (matrix) => {
     return matrix[0].map((_, i) => matrix.map((row) => row[i]).reverse());
   };
+  let radId = 0;
   const gameLoop = (timestamp = 0) => {
     if (!isGameRunning) return;
 
-    draw();
+    render();
 
     if (timestamp - lastDropTime > dropInterval) {
       //   We place moveDown to make the tetromino move down automatically, every time the game starts
       moveDown();
       lastDropTime = timestamp;
     }
-    requestAnimationFrame(gameLoop);
+    radId = requestAnimationFrame(gameLoop);
   };
 
   const mergeTetromino = () => {
@@ -347,27 +325,6 @@ document.addEventListener(`DOMContentLoaded`, () => {
     });
   };
 
-  //   BONUS FUNCTION
-  const drawGrid = () => {
-    ctx.lineWidth = 1.1;
-    ctx.strokeStyle = "#232332";
-    ctx.shadowBlur = 0;
-
-    for (let i = 1; i < row; i++) {
-      let f = (canvas.width / col) * i;
-      ctx.beginPath();
-      ctx.moveTo(f, 0);
-      ctx.lineTo(f, canvas.height);
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.moveTo(0, f);
-      ctx.lineTo(canvas.width, f);
-      ctx.stroke();
-      ctx.closePath();
-    }
-  };
-
   const startGame = () => {
     isGameRunning = true;
     score = 0;
@@ -377,6 +334,8 @@ document.addEventListener(`DOMContentLoaded`, () => {
     heldKey = null;
     renderHoldPreview();
     newTetromino();
+    render();
+    cancelAnimationFrame(radId);
     requestAnimationFrame(gameLoop);
   };
 
@@ -399,12 +358,14 @@ document.addEventListener(`DOMContentLoaded`, () => {
     }
   };
 
-  const changeDirectionMobile = () => {};
+  if (holdBtn) {
+    holdBtn.addEventListener("click", holdPiece);
+  }
 
   window.addEventListener("keydown", (event) => {
     if (
       !isGameRunning &&
-      (event.key == "" || event.code === "Space" || event.key === 32)
+      (event.key == " " || event.code === "Space" || event.key === "Enter")
     ) {
       startGame();
     }
@@ -432,7 +393,8 @@ document.addEventListener(`DOMContentLoaded`, () => {
     }
   });
 
-  document.addEventListener("resize", () => {
-    grid = setCanvasSize();
+  window.addEventListener("resize", () => {
+    // sizeCanvasToShell();
+    draw();
   });
 });

@@ -8,56 +8,41 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Michroma&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/neon-shell.css" />
+
     <script
       src="https://kit.fontawesome.com/6057a741cb.js"
       crossorigin="anonymous"></script>
-    <script defer src="js/drawHelpers.js"></script>
     <script defer src="js/logic.js"></script>
     <title>Tetris | Rocket Power Tech</title>
   </head>
   <body>
-    <div class="wrapper">
-      <div class="game-display">
-        <div class="game-header">
-          <span class="title">Tetris</span>
-          <span>Score <span id="score">0</span></span>
-        
-        </div>
+  <!-- Background grid layer -->
+  <div class="bg-grid"></div>
 
-        <div id="canvas">
-          <canvas></canvas>
-        </div>
-        <div id="holdbox">
-          <p class="hold-label">Hold</p>
-          <canvas id="holdCanvas" width="128" height="128"></canvas>
-          <button
-          id="btn-hold"
-          class="btn-hold"
-          aria-label="Hold current piece">
-          Hold (C)
-        </button>
-        </div>
-        <div class="controls">
-          <div>
-            <div class="gamepad">
-              <div class="dpad">
-                <i
-                  data-key="ArrowUp"
-                  class="dpad-button up fa-solid fa-rotate"></i>
-                <i
-                  data-key="ArrowLeft"
-                  class="dpad-button left fa-solid fa-arrow-left"></i>
-                <i data-key="Space" class="dpad-center"></i>
-                <i
-                  data-key="ArrowDown"
-                  class=" dpad-button down fa-solid fa-arrow-down"></i>
+  <!-- Tetris board size is set here -->
+  <div class="wrapper" style="--rows:20; --cols:10;"> 
+    <div class="title"> Tetris </div>
 
-                <i
-                  data-key="ArrowRight"
-                  class="fa-solid fa-arrow-right dpad-button right"></i>
-              </div>
-            </div>
+    <div class="game-display">
+      <div class="game-details">
+        <span id="score">Score : 0</span>
+        <span class="high-score">Best : 0</span>
+        <button class="restart" title="Restart"><i class="fa-solid fa-rotate"></i></button>
+      </div>
+
+      <!-- Playboard (shared shell) -->
+      <div class="play-board">
+      </div>
+
+      <div class="controls">
+        <div class="gameboy-pad">
+          <div class="dpad">
+            <i data-key="ArrowUp"    class="dpad-button up   fa-solid fa-arrow-up"></i>
+            <i data-key="ArrowLeft"  class="dpad-button left fa-solid fa-arrow-left"></i>
+            <i class="dpad-center fa-regular fa-circle"></i>
+            <i data-key="ArrowRight" class="dpad-button right fa-solid fa-arrow-right"></i>
+            <i data-key="ArrowDown"  class="dpad-button down fa-solid fa-arrow-down"></i>
           </div>
         </div>
       </div>
