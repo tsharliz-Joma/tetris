@@ -12,6 +12,7 @@
     <script
       src="https://kit.fontawesome.com/6057a741cb.js"
       crossorigin="anonymous"></script>
+    <script defer src="js/drawHelpers.js"></script>
     <script defer src="js/logic.js"></script>
     <title>Tetris | Rocket Power Tech</title>
   </head>
@@ -21,11 +22,22 @@
         <div class="game-header">
           <span class="title">Tetris</span>
           <span>Score <span id="score">0</span></span>
+        
         </div>
+
         <div id="canvas">
           <canvas></canvas>
         </div>
-
+        <div id="holdbox">
+          <p class="hold-label">Hold</p>
+          <canvas id="holdCanvas" width="128" height="128"></canvas>
+          <button
+          id="btn-hold"
+          class="btn-hold"
+          aria-label="Hold current piece">
+          Hold (C)
+        </button>
+        </div>
         <div class="controls">
           <div>
             <div class="gamepad">

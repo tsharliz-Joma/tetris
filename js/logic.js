@@ -1,7 +1,11 @@
 document.addEventListener(`DOMContentLoaded`, () => {
   const canvas = document.querySelector(`canvas`);
+  const holdCanvas = document.getElementById("holdCanvas");
   const ctx = canvas.getContext("2d");
+  const holdCtx = holdCanvas ? holdCanvas.getContext("2d") : null;
   const controls = document.querySelectorAll(".controls i");
+  let heldKey = null;
+  let canHold = true;
   let isGameRunning = false;
   let timerId;
   let score = 0;
@@ -10,15 +14,6 @@ document.addEventListener(`DOMContentLoaded`, () => {
   let currentTetromino;
   const NUM_COLS = 10;
   const NUM_ROWS = 20;
-
-  //   const setCanvasSize = () => {
-  //     //   Dynamic grid for mobile sizes
-  //     const grid = window.innerWidth <= 430 ? 30 : 30;
-  //     //   Dynamic canvas sizes
-  //     canvas.width = grid * 13; // 10 columns
-  //     canvas.height = grid * 20; // 20 rows
-  //     return grid;
-  //   };
 
   const setCanvasSize = () => {
     const maxWidth = Math.min(window.innerWidth, 430);
@@ -102,6 +97,34 @@ document.addEventListener(`DOMContentLoaded`, () => {
     };
   };
 
+  const setCurrentFromKey = (key) => {
+    currentTetromino = {
+      shape: tetrominoes[key],
+      x: Math.floor(col / 2) - Math.floor(tetrominoes[key][0].length / 2),
+      y: 0,
+      randomlySelectedKey: key,
+    };
+  };
+
+  // Hold Piece Funtion
+  const holdPiece = () => {
+    if (!isGameRunning || !currentTetromino || !canHold) return;
+
+    const curKey = currentTetromino.randomlySelectedKey;
+    if (heldKey === null) {
+      // First time: stash the piece and call a fresh one
+      heldKey = curKey;
+      newTetromino();
+    } else {
+      const swapKey = heldKey;
+      heldKey = curKey;
+      setCurrentFromKey(swapKey);
+    }
+
+    canHold = false; // Must lock a piece before holding again
+    renderHoldPreview();
+  };
+
   const draw = () => {
     if (isGameRunning) {
       drawBoard();
@@ -149,6 +172,58 @@ document.addEventListener(`DOMContentLoaded`, () => {
     });
   };
 
+  const renderHoldPreview = () => {
+    // Check if holdCtx or holdCanvas already exists
+    if (!holdCtx || !holdCanvas) return;
+
+    // clear
+    holdCtx.clearRect(0, 0, holdCanvas.width, holdCanvas.height);
+
+    // no held piece --> nothing to draw
+    if (heldKey == null) return;
+
+    const shape = tetrominoes[heldKey];
+    const color = colors[heldKey];
+
+    const cells = 4;
+    const cell = Math.floor(holdCanvas.width / cells);
+
+    holdCtx.strokeStyle = "#132532";
+    holdCtx.lineWidth = 1;
+    for (let i = 1; i < cells; i++) {
+      const p = i * cell + 0.5;
+      holdCtx.beginPath();
+      holdCtx.moveTo(p, 0);
+      holdCtx.lineTo(p, holdCanvas.height);
+      holdCtx.stroke();
+      holdCtx.beginPath();
+      holdCtx.moveTo(0, p);
+      holdCtx.lineTo(holdCanvas.width, p);
+      holdCtx.stroke();
+    }
+
+    const sx = shape[0].length;
+    const sy = shape.length;
+    const offX = Math.floor((cells - sx) / 2);
+    const offY = Math.floor((cells - sy) / 2);
+
+    // draw blocks
+    for (let y = 0; y < sy; y++) {
+      for (let x = 0; x < sx; x++) {
+        if (!shape[y][x]) continue;
+
+        const px = (x + offX) * cell + 1;
+        const py = (y + offY) * cell + 1;
+        const sz = cell - 2;
+
+        holdCtx.fillStyle = color;
+        holdCtx.fillRect(px, py, sz, sz);
+        holdCtx.strokeStyle = `rgba(0, 0, 0, .35)`;
+        holdCtx.strokeRect(px, py, sz, sz);
+      }
+    }
+  };
+
   const moveLeft = () => {
     if (
       !collisionDetection(
@@ -184,6 +259,8 @@ document.addEventListener(`DOMContentLoaded`, () => {
       currentTetromino.y++;
     } else {
       mergeTetromino();
+      // Allow holding again
+      canHold = true;
       newTetromino();
       if (
         collisionDetection(
@@ -296,6 +373,9 @@ document.addEventListener(`DOMContentLoaded`, () => {
     score = 0;
     updateScore();
     board.forEach((row) => row.fill(0));
+    canHold = true;
+    heldKey = null;
+    renderHoldPreview();
     newTetromino();
     requestAnimationFrame(gameLoop);
   };
@@ -346,8 +426,9 @@ document.addEventListener(`DOMContentLoaded`, () => {
         rotateTetromino();
       } else if (event.key === `ArrowDown`) {
         moveDown();
+      } else if (event.key === "c" || event.key === "C") {
+        holdPiece();
       }
-      //   draw();
     }
   });
 
