@@ -134,10 +134,10 @@ canvas {
 
 .title {
   border: 1px solid red;
-  /* font-family: Michroma, Inter, system-ui, sans-serif;
+  font-family: Michroma, Inter, system-ui, sans-serif;
   letter-spacing: 0.6em;
   font-size: 14px;
-  text-transform: uppercase; */
+  text-transform: uppercase;
 }
 
 .gb-screen-bezel {
