@@ -7,20 +7,21 @@ document.addEventListener(`DOMContentLoaded`, () => {
   let heldKey = null;
   let canHold = true;
   let isGameRunning = false;
+  let radId = 0;
   let score = 0;
   let bestEl = document.getElementById("best");
   const BEST_KEY = "tetris-highscore";
   let bestScore = Number(localStorage.getItem(BEST_KEY) || 0);
-  if (bestEl) bestEl.textContent = bestScore;
-
   let lastDropTime = 0;
   const dropInterval = 500;
   let currentTetromino;
-  const NUM_COLS = 10;
+  const NUM_COLS = 20;
   const NUM_ROWS = 20;
   const row = NUM_ROWS;
   const col = NUM_COLS;
   const board = Array.from({length: row}, () => Array(col).fill(0));
+
+  if (bestEl) bestEl.textContent = bestScore;
 
   function render() {
     if (!boardEl) return;
@@ -264,7 +265,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
   const rotateMatrix = (matrix) => {
     return matrix[0].map((_, i) => matrix.map((row) => row[i]).reverse());
   };
-  let radId = 0;
+
   const gameLoop = (timestamp = 0) => {
     if (!isGameRunning) return;
 

@@ -315,7 +315,7 @@ body {
 }
 
 /* Fallback if svh is not supported */
-@media (max-width: 48px) {
+@media (max-width: 480px) {
   @supports not (height: 1svh) {
     .game-display {
       width: min(
