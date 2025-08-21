@@ -15,7 +15,7 @@ document.addEventListener(`DOMContentLoaded`, () => {
   let lastDropTime = 0;
   const dropInterval = 500;
   let currentTetromino;
-  const NUM_COLS = 20;
+  const NUM_COLS = 16;
   const NUM_ROWS = 20;
   const row = NUM_ROWS;
   const col = NUM_COLS;
