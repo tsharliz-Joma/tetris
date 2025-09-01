@@ -144,7 +144,7 @@ body {
   grid-template: repeat(var(--rows), 1fr) / repeat(var(--cols), 1fr);
   background: radial-gradient(800px 400px at 50% 20%, #0b2732 0%, #0a1e27 70%),
     linear-gradient(transparent, rgba(255, 255, 255, 0.02));
-  border-radius: 20px;
+  /* border-radius: 20px; */
   position: relative;
   box-shadow: 0 0 0 1px #0f3a48, 0 0 60px -10px var(--neon-soft);
   overflow: hidden;
