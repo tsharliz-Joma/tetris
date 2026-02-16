@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Michroma&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400..900&display=swap"
       rel="stylesheet" />
     <link rel="stylesheet" href="css/neon-shell.css" />
 
@@ -21,18 +21,45 @@
   <div class="bg-grid"></div>
 
   <!-- Tetris board size is set here -->
-  <div class="wrapper" style="--rows:20; --cols:20;"> 
+  <div class="wrapper" style="--rows:20; --cols:10;"> 
     <div class="title"> Tetris </div>
 
     <div class="game-display">
       <div class="game-details">
-        <span id="score">Score : 0</span>
-        <span class="high-score">High Score : <span id="best">0</span></span>
-        <button class="restart" title="Restart"><i class="fa-solid fa-rotate"></i></button>
+        <div class="stats">
+          <span id="score">Score : 0</span>
+          <span id="lines">Lines : 0</span>
+          <span id="level">Level : 1</span>
+        </div>
+        <span class="high-score">Best : <span id="best">0</span></span>
+        <div class="top-actions">
+          <button class="restart" title="Restart"><i class="fa-solid fa-rotate"></i></button>
+          <button class="pause" title="Pause (P)"><i class="fa-solid fa-pause"></i></button>
+        </div>
       </div>
 
-      <!-- Playboard (shared shell) -->
-      <div class="play-board">
+      <div class="game-stage">
+        <!-- Playboard -->
+        <div class="play-board"></div>
+
+        <!-- Side Panel -->
+        <aside class="side-panel">
+          <div class="panel-card">
+            <div class="panel-title">Next</div>
+            <canvas id="nextCanvas" width="120" height="120"></canvas>
+          </div>
+          <div class="panel-card">
+            <div class="panel-title">Hold</div>
+            <canvas id="holdCanvas" width="120" height="120"></canvas>
+            <button id="btn-hold" class="panel-action">Hold (C)</button>
+          </div>
+          <div class="panel-card tips">
+            <div class="panel-title">Controls</div>
+            <div class="panel-text">
+              ← → move • ↑ rotate • ↓ soft drop • Space hard drop • P pause
+            </div>
+          </div>
+        </aside>
       </div>
 
       <div class="controls">
@@ -44,6 +71,22 @@
             <i data-key="ArrowRight" class="dpad-button right fa-solid fa-arrow-right"></i>
             <i data-key="ArrowDown"  class="dpad-button down fa-solid fa-arrow-down"></i>
           </div>
+          <div class="action-pad">
+            <button class="action-btn" data-action="rotate">Rotate</button>
+            <button class="action-btn" data-action="drop">Drop</button>
+            <button class="action-btn" data-action="hold">Hold</button>
+            <button class="action-btn" data-action="pause">Pause</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="overlay visible" id="overlay">
+        <div class="overlay-card">
+          <div class="overlay-title">Tetris</div>
+          <div class="overlay-text" id="overlayText">
+            Press Space or Enter to start
+          </div>
+          <button class="primary" id="btn-start">Start</button>
         </div>
       </div>
     </div>
